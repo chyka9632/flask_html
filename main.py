@@ -1,11 +1,14 @@
 from flask import Flask as fl, render_template
 import pandas as pd
+
 app = fl(__name__)
+station_data = pd.read_csv("data_small/stations.txt", skiprows=17)
+station_data = station_data[["STAID", "STANAME                                 "]]
 
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("home.html", station_table=station_data.to_html())
 
 
 @app.route("/api/v1/<station>/<date>")
